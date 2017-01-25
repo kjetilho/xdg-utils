@@ -329,9 +329,11 @@ open_generic_xdg_mime()
         xdg_system_dirs="$XDG_DATA_DIRS"
         [ -n "$xdg_system_dirs" ] || xdg_system_dirs=/usr/local/share/:/usr/share/
 
-DEBUG 3 "$xdg_user_dir:$xdg_system_dirs"
-        for x in `echo "$xdg_user_dir:$xdg_system_dirs" | sed 's/:/ /g'`; do
-            search_desktop_file "$default" "$x/applications/" "$1"
+        DEBUG 3 "$xdg_user_dir:$xdg_system_dirs"
+        for def in `echo "$default" | sed 's/;/ /g'`; do
+            for x in `echo "$xdg_user_dir:$xdg_system_dirs" | sed 's/:/ /g'`; do
+                search_desktop_file "$def" "$x/applications/" "$1"
+            done
         done
     fi
 }
